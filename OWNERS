@@ -6,7 +6,6 @@ filters:
     labels:
       - kind/website
 reviewers:
-  - tripledes
   - jparrill
 approvers:
   - jparrill
