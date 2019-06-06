@@ -6,9 +6,7 @@
 #    local = True,
 #    outs = ["$(location tests.sh)"]
 #)
-sh_test(
+sh_binary(
     name = "rake_tests",
-    size = "medium",
-    local = True,
-    srcs = ["test.sh"],
+    srcs = ["tests.sh"]
 )

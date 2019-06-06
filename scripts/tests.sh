@@ -1,2 +1,3 @@
 #!/bin/bash
-rake
+env
+cd ${BUILD_WORKING_DIRECTORY} && rake
