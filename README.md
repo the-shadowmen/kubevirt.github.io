@@ -132,3 +132,4 @@ All pages are located under `/pages`. Each section of the site is broken out int
 All site images are located under `/assets/images`. Please do not edit these images.
 
 Images that relate to blog entries are located under `/assets/images/BLOG_POST_TITLE`. The **BLOG_POST_TITLE** should match the name of the markdown file that you added under `/_posts`.
+
