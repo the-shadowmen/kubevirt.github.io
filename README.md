@@ -133,3 +133,4 @@ All site images are located under `/assets/images`. Please do not edit these ima
 
 Images that relate to blog entries are located under `/assets/images/BLOG_POST_TITLE`. The **BLOG_POST_TITLE** should match the name of the markdown file that you added under `/_posts`.
 
+
