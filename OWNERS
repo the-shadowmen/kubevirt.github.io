@@ -7,6 +7,15 @@ filters:
       - kind/website
 reviewers:
   - jparrill
+  - codificat
+  - iranzo
+  - karmab
+  - tripledes
+  - joeldavis84
+  - DirectedSoul1
 approvers:
   - jparrill
   - tripledes
+  - codificat
+  - iranzo
+  - karmab
