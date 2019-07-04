@@ -3,12 +3,14 @@
 # Generated markdown files should be stored under _posts/ for website rendering
 
 TARGET='build'
+BOT="$1"
+
 mkdir -p build/artifacts || continue
 [[ -e build/kubevirt ]] || git clone https://github.com/kubevirt/kubevirt.git build/kubevirt/
 git -C build/kubevirt checkout master
 git -C build/kubevirt pull --tags
 
-releases() {
+function releases() {
 git -C build/kubevirt tag | sort -rV | while read TAG ;
 do
   [[ "$TAG" =~ [0-9].0$ ]] || continue ;
@@ -19,14 +21,14 @@ do
 done
 }
 
-features_for() {
+function features_for() {
   echo -e  ""
   git -C build/kubevirt show $1 | grep Date: | head -n1 | sed "s/Date:\s\+/Released on: /"
   echo -e  ""
   git -C build/kubevirt show $1 | sed -n "/changes$/,/Contributors/ p" | egrep "^- " ;
 }
 
-gen_changelog() {
+function gen_changelog() {
   {
   for REL in $(releases);
   do
@@ -66,12 +68,43 @@ EOF
   }
 }
 
+function get_git_field() {
+    # Get Git Username from K8s secret
+    # The secret is mounted on 
+
+    GIT_CRED_PATH=/etc/git-creds/.git-credentials
+    field=$1
+
+    if [[ -f ${GIT_CRED_PATH} ]]; then
+        RESULT="$(grep ${field} /etc/git-creds/.git-credentials | cut -f2 -d=)"
+    else
+        echo "The Git credentials file does not exists plz create the secret on the correct namespace"
+        exit 1
+    fi
+}
+
+function git_configure() {
+    # This function will prepare your Git Config for pushing events
+    # I've use this method instead of git-credentials because, for whatever reason the images Git version
+    # is not the correct one to work with credentials properly, even creating the secret
+    USERNAME="${1:-kubevirt-bot}"
+    TOKEN="$2"
+    REPO="$(git config --get remote.origin.url | cut -f2 -d@)"
+
+    [[ -z ${USERNAME} ]] && (get_git_field "username" && USERNAME=${RESULT})
+    [[ -z ${TOKEN} ]] && (get_git_field "password" && TOKEN=${RESULT})
+    [[ -L ${HOME}/.gitconfig ]] || ln -s /etc/gitconfig/git-config ${HOME}/.gitconfig
+
+    git remote set-url origin https://${USERNAME}:${TOKEN}@${REPO}
+}
+
 gen_changelog
 
 for file in build/artifacts/*.markdown; do
-[ -f _posts/$(basename $file) ] || mv $file _posts/
+    [ -f _posts/$(basename $file) ] || mv $file _posts/
 done
 
 git add _posts/
 git commit -m "Release autobot 🚗---->🤖"
-git push
+git_configure "${BOT}"
+git push --set-upstream origin master
