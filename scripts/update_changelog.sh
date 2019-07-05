@@ -94,6 +94,7 @@ function git_configure() {
     USERNAME="${1:-kubevirt-bot}"
     TOKEN="$2"
     REPO="$(git config --get remote.origin.url | cut -f2 -d@ | cut -f3-$NC -d/)"
+    BRANCH="feature/autorelease"
 
     [[ -z ${USERNAME} ]] && (get_git_field "username" && USERNAME=${RESULT})
     get_git_field "password" && TOKEN=${RESULT}
@@ -111,4 +112,4 @@ done
 git add _posts/
 git_configure "${BOT}"
 git commit -m "Release autobot 🚗---->🤖"
-git push --set-upstream origin master
+git push --set-upstream origin ${BRANCH} 
