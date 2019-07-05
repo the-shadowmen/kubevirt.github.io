@@ -2,6 +2,8 @@
 # Description: This script generates markdown files for each release of kubevirt in repository
 # Generated markdown files should be stored under _posts/ for website rendering
 
+set +x
+
 TARGET='build'
 BOT="$1"
 
