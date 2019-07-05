@@ -93,7 +93,7 @@ function git_configure() {
     # is not the correct one to work with credentials properly, even creating the secret
     USERNAME="${1:-kubevirt-bot}"
     TOKEN="$2"
-    REPO="$(git config --get remote.origin.url | cut -f2 -d@)"
+    REPO="$(git config --get remote.origin.url | cut -f2 -d@ | cut -f3-$NC -d/)"
 
     [[ -z ${USERNAME} ]] && (get_git_field "username" && USERNAME=${RESULT})
     get_git_field "password" && TOKEN=${RESULT}
