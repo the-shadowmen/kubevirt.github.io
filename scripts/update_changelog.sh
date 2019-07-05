@@ -110,6 +110,6 @@ for file in build/artifacts/*.markdown; do
 done
 
 git add _posts/
-git commit -m "Release autobot 🚗---->🤖"
 git_configure "${BOT}"
+git commit -m "Release autobot 🚗---->🤖"
 git push --set-upstream origin master
