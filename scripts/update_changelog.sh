@@ -32,6 +32,7 @@ function features_for() {
 
 function gen_changelog() {
   {
+  echo "Generating changelog from Git Tags..."
   for REL in $(releases);
   do
     FILENAME="changelog-$REL.markdown"
@@ -66,6 +67,7 @@ EOF
     mv $FILENAME $NEWFILENAME
     sed -i "s#^pub-date:.*#pub-date: $monthname#g" "$NEWFILENAME"
     sed -i "s#^pub-year:.*#pub-year: $year#g" "$NEWFILENAME"
+    echo "File ${NEWFILENAME} created"
   done
   }
 }
