@@ -97,7 +97,7 @@ function git_configure() {
 
     [[ -z ${USERNAME} ]] && (get_git_field "username" && USERNAME=${RESULT})
     [[ -z ${TOKEN} ]] && (get_git_field "password" && TOKEN=${RESULT})
-    [[ -L ${HOME}/.gitconfig ]] || ln -s /etc/gitconfig/git-config ${HOME}/.gitconfig
+    ln -fs /etc/gitconfig/git-config ${HOME}/.gitconfig
 
     git remote set-url origin https://${USERNAME}:${TOKEN}@${REPO}
 }
